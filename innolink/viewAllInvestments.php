@@ -1,0 +1,164 @@
+<?php
+    // echo "Investor";
+    session_start();
+
+    include_once './connect.php';
+    include_once './classes/InvestorClass.php';
+    include_once './classes/BusinessOwnerClass.php';
+    include_once './classes/notification.php';
+
+
+    $investor = null;
+    $businessOwner = null;
+
+    if(isset($_SESSION['userName'])){
+        if($_SESSION['userRole'] === "Investor"){
+            $investor = new Investor($_SESSION['userName'],$_SESSION['password'],$_SESSION['email'],$_SESSION['userRole']);
+            if(!empty($_SESSION['username'])){
+                $investor->setName($_SESSION['username']);
+            }
+            if(!empty($_SESSION['title'])){
+                $investor->setTitle($_SESSION['title']);
+            }
+            if(!empty($_SESSION['userImage'])){
+                $investor->setImage($_SESSION['userImage']);
+            }
+            $_SESSION['investor'] = serialize($investor);
+        }
+
+        elseif($_SESSION['userRole'] === "Business Owner"){
+            // echo "PASS";
+            $businessOwner = new BusinessOwner($_SESSION['userName'],$_SESSION['password'],$_SESSION['email'],$_SESSION['userRole']);
+            if(!empty($_SESSION['username'])){
+                $businessOwner->setName($_SESSION['username']);
+            }
+            if(!empty($_SESSION['title'])){
+                $businessOwner->setTitle($_SESSION['title']);
+            }
+            if(!empty($_SESSION['userImage'])){
+                $businessOwner->setImage($_SESSION['userImage']);
+            }
+            $_SESSION['businessOwner'] = serialize($businessOwner);
+        }
+    }else{
+        echo "fail";
+    }
+
+//accepting proposal
+    if(isset($_POST['acceptProposal'])){
+        $proposalId = $_POST['proposalId'];
+        $ideaId = $_POST['ideaId'];
+    
+        
+        $acceptQuery = "UPDATE investmentproposal SET status = 'accepted' WHERE proposalId = '$proposalId'";
+        mysqli_query($con, $acceptQuery);
+    
+        $rejectQuery = "UPDATE investmentproposal SET status = 'rejected' WHERE businessideaId = '$ideaId' AND proposalId != '$proposalId'";
+        mysqli_query($con, $rejectQuery);
+    
+
+        //sending notification
+        $result = mysqli_query($con, "SELECT investor FROM investmentproposal WHERE proposalId = $proposalId");
+        $row = mysqli_fetch_assoc($result);
+        $investor = $row['investor'];
+    
+        $message = "Your proposal for the business idea with ID $ideaId has been accepted.";
+        $notification = new Notification($businessOwner->getUserName(), $investor, $message);
+        $notification->saveNotification($con);
+
+        header("Location: ".$_SERVER['PHP_SELF']);
+        exit();
+    }
+
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Investment Proposals</title>
+    <link rel="stylesheet" href="./css/allInvestment.css">
+</head>
+<body>
+<header>
+    <div class="logo"><img src="./image/logo.png" alt="Innolink Logo" class="logo-img"></div>
+        <?php
+        if($investor != null){
+            echo '
+            <nav>
+                <a href="./Investor_Dashboard.php">Home</a>
+                <a href="./viewAllInvestments.php">Investmets</a>
+                <a href="./allNotifications.php">Notification</a>
+                <a href="#">Messaging</a>
+                <a href="./userProfile.php">Profile</a>
+                <button class="logout-btn"><a href="./logout.php">Logout</a></button>
+            </nav>';
+        }elseif($businessOwner != null){
+            echo '
+            <nav>
+                <a href="./BusinessOwner_Dashboard.php">Home</a>
+                <a href="./viewAllInvestments.php">Investment History</a>
+                <a href="#">Notification</a>
+                <a href="#">Messaging</a>
+                <a href="./userProfile.php">Profile</a>
+                <button class="logout-btn"><a href="./logout.php">Logout</a></button>
+            </nav>';
+        }   
+        ?>
+    
+    </header>
+
+    <main>
+        <aside class="sidebar">
+            <div class="profile-picture">  
+                
+                <?php 
+                if($investor != null){
+                    $encodeImage = base64_encode($investor->getImage());
+                    echo "<img src='data:image/jpeg;base64,$encodeImage' alt='Profile Picture'>";
+                }elseif($businessOwner != null){
+                    $encodeImage = base64_encode($businessOwner->getImage());
+                    echo "<img src='data:image/jpeg;base64,$encodeImage' alt='Profile Picture'>";
+                }
+                    
+                ?>
+
+            </div>
+            <div class="profile-header-text">
+                
+                <?php
+                if($investor != null){
+                    echo "
+                        <h2>" .$investor->getName()."</h2>
+                        <p>".$investor->getTitle()."</p>
+                    ";
+                }elseif($businessOwner != null){
+                    echo "
+                        <h2>" .$businessOwner->getName()."</h2>
+                        <p>".$businessOwner->getTitle()."</p>
+                    ";
+                }
+                   
+                ?>
+                
+            </div>
+        </aside>
+        <div class='proposal-container'>
+            <h2>All Investment Proposals</h2>        
+                <?php
+                    if($investor != null){
+                        echo  $investor->displayAllProposals($con);
+                    }
+
+                    elseif($businessOwner != null){
+                        echo  $businessOwner->viewIdeaInvestment($con);
+                    }
+                ?>
+        </div>
+            
+    <div>
+
+    </div>
+</body>
+</html>
