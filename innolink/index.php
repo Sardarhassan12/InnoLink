@@ -59,13 +59,13 @@
            </a>
         </nav>
         <div class="flex space-x-4"> 
-           <a href="login.html">
+           <a href="./login.php">
               <button class=" border-2 border-blue-400 text-blue-400 px-8 py-2 rounded-full">
                  Login
               </button>
            </a>
-           <a href="signup.html">
-              <button class="border-2 border-blue-400 bg-blue-400 text-white px-6 py-2 rounded-full">
+           <a href="./register.php">
+              <button class="border-2 border-blue-400 bg-blue-400 text-white px-8 py-2 rounded-full">
                  Sign up
               </button>
            </a>
@@ -306,69 +306,7 @@
     </div>
    </div>
   </section>
-  <!-- <section class="p-6 bg-gray-100 min-h-screen fade-in">
-   <div class="max-w-7xl mx-auto">
-    <h2 class="text-3xl font-bold text-center mb-6">
-     Contact Us
-    </h2>
-    <div class="flex flex-col md:flex-row items-center justify-between">
-     <div class="md:w-1/2 space-y-6">
-      <p class="text-gray-600">
-       Have any questions or need further information? Feel free to reach out to us. We're here to help you succeed.
-      </p>
-      <div class="space-y-4">
-       <div class="flex items-center space-x-4">
-        <i class="fas fa-phone text-2xl text-blue-500">
-        </i>
-        <span class="text-gray-600">
-         +1 234 567 890
-        </span>
-       </div>
-       <div class="flex items-center space-x-4">
-        <i class="fas fa-envelope text-2xl text-yellow-500">
-        </i>
-        <span class="text-gray-600">
-         support@innolink.com
-        </span>
-       </div>
-       <div class="flex items-center space-x-4">
-        <i class="fas fa-map-marker-alt text-2xl text-red-500">
-        </i>
-        <span class="text-gray-600">
-         123 Startup St, Innovation City, USA
-        </span>
-       </div>
-      </div>
-     </div>
-     <div class="md:w-1/2 mt-6 md:mt-0">
-      <form class="bg-white p-6 rounded-lg shadow-lg space-y-4">
-       <div>
-        <label class="block text-gray-600" for="name">
-         Name
-        </label>
-        <input class="w-full p-2 border border-gray-300 rounded-lg" id="name" type="text"/>
-       </div>
-       <div>
-        <label class="block text-gray-600" for="email">
-         Email
-        </label>
-        <input class="w-full p-2 border border-gray-300 rounded-lg" id="email" type="email"/>
-       </div>
-       <div>
-        <label class="block text-gray-600" for="message">
-         Message
-        </label>
-        <textarea class="w-full p-2 border border-gray-300 rounded-lg" id="message" rows="4">
-        </textarea>
-       </div>
-       <button class="bg-blue-400 text-white px-6 py-3 rounded-full" type="submit">
-        Send Message
-       </button>
-      </form>
-     </div>
-    </div>
-   </div>
-  </section> -->
+  
   <footer class="p-6 bg-white text-center">
    <p class="text-gray-600">
     &copy; 2023 InnoLink. All rights reserved.
