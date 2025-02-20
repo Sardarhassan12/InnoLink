@@ -4,17 +4,6 @@ if(!$con){
    echo "Connection Error";
 }
 
-    // session_start();
-    // include './classes/userClass.php';
-
-    // if(isset($_SESSION['userName'])){
-       
-    //     echo "pass". $_SESSION['userName'];
-
-    // }
-    // else{
-    //     echo "fail";
-    // }
     $query = "select * from businessidea where BusinessOwnerUserName = 'ali' ";
     $result = mysqli_query($con, $query);
 

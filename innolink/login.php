@@ -2,7 +2,7 @@
     include('connect.php');
     include('./classes/userClass.php');
     $error= false;
-    // try{
+    try{
         if(isset($_POST['loginButton'])){
             $userName = $_POST['username'];
             $password = $_POST['password'];
@@ -10,10 +10,10 @@
             $existingUser = new User();
             $error = $existingUser->login($con, $userName, $password);
         }
-    // }
-    // catch{
+    }
+    catch(error){
 
-    // }
+    }
 ?>
 
 <!DOCTYPE html>

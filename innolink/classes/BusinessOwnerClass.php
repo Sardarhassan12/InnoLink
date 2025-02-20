@@ -15,13 +15,7 @@ include_once('BusinessIdeaClass.php');
         }
         
         public function proposeBusinessIdea($con,$title, $desc, $category, $financial, $image, $roi){
-                    // $query1 = "select * from businessidea where ideaId = '$ideaId'";
-                    // $result1= mysqli_query($con, $query1);
-
-                    // if(mysqli_fetch_assoc($result1) > 0){
-                    //     return true;
-                    // }
-                    // else{
+                    
 
                     $escapedImage = addslashes($image);
                     $query2 = "insert into businessidea (title, description, category, finance,expectedROI, image, BusinessOwnerUserName) VALUES ('$title',' $desc','$category',' $financial', '$roi','$escapedImage','$this->userName' )";
@@ -31,8 +25,6 @@ include_once('BusinessIdeaClass.php');
                         return true;
                     }
 
-                    // }
-                
         }
 
         public function getAllBusinessIdeas($con){
@@ -154,9 +146,6 @@ include_once('BusinessIdeaClass.php');
             $query = "UPDATE businessidea SET title = '$title', description = '$desc', category = '$category', finance = '$financial', image = '$escapedImage' Where ideaId = '$ideaId'";
             $result= mysqli_query($con, $query);
 
-            if($result){
-                // echo "<script>alert('successful');</script>";
-            }
         }
 
         public function viewIdeaInvestment($con){
